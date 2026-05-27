@@ -23,6 +23,18 @@ powershell -ExecutionPolicy Bypass -File scripts/coletar-diagnostico.ps1
 
 O script coleta apenas informacoes de leitura, como versao do Windows, modelo, CPU, RAM, GPU, BIOS sem serial/service tag, planos de energia, softwares e servicos Dell/Alienware relevantes, Intel Integrated Sensor Solution, Intel Dynamic Tuning e dados basicos do `nvidia-smi` quando disponivel.
 
+## Teste movimento vs parado
+
+O fluxo de teste compara o notebook parado com movimento fisico leve, usando apenas monitoramento por `nvidia-smi`. Ele nao altera overclock, undervolt, BIOS, drivers, servicos, Intel Integrated Sensor Solution ou Intel Dynamic Tuning.
+
+Para registrar 2 minutos de telemetria local da GPU:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/monitorar-nvidia.ps1 -DurationSeconds 120 -Teste parado
+```
+
+Os CSVs sao salvos em `logs/` e ignorados pelo Git. Publique apenas resumos em `docs/resultados-testes.md`.
+
 ## Cuidados para repo publico
 
 Nao publicar:
@@ -43,3 +55,5 @@ Nao publicar:
 - [Energia e performance](docs/energia-e-performance.md)
 - [Sensores e limitacoes](docs/sensores-e-limitacoes.md)
 - [Plano de proximos testes](docs/plano-proximos-testes.md)
+- [Teste movimento vs parado](docs/teste-movimento-vs-parado.md)
+- [Resultados dos testes](docs/resultados-testes.md)

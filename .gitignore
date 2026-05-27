@@ -1,0 +1,4 @@
+# Local monitoring outputs. Keep summaries in docs, not raw logs.
+logs/*.csv
+logs/*.log
+!logs/.gitkeep
