@@ -57,3 +57,5 @@ Nao publicar:
 - [Plano de proximos testes](docs/plano-proximos-testes.md)
 - [Teste movimento vs parado](docs/teste-movimento-vs-parado.md)
 - [Resultados dos testes](docs/resultados-testes.md)
+- [Analise de Laptop Mode](docs/analise-laptop-mode.md)
+- [Plano de mitigacao](docs/plano-mitigacao.md)
