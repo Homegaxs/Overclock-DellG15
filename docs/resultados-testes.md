@@ -32,3 +32,36 @@ Resumo dos testes executados. Nao colar logs crus, CSV completo, prints ou dados
 - Se houver queda de FPS ou travamento, registrar o momento aproximado e comparar com clocks, consumo, P-state e utilizacao da GPU.
 - Manter os arquivos gerados em `logs/` fora do commit.
 - Arquivos CSV analisados localmente e nao incluidos no commit.
+
+## Teste com carga real
+
+O teste anterior com Notepad em branco foi util para validar o monitoramento, mas foi inconclusivo para carga real. Este novo teste usou Resident Evil 4 via Steam, com uma cena/tela do jogo mantida fixa. Resolucao e preset grafico nao foram registrados.
+
+| Data | Teste | App/jogo | Condicao | Duracao | FPS/stutter observado | Temp. GPU min/media/max | Power draw min/media/max | Clock grafico min/media/max | Clock memoria min/media/max | Uso GPU min/media/max | P-state predominante | Observacoes |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-05-27 | RE4 A | Resident Evil 4 | Carga real, notebook parado | 2 min | Nao observado diretamente | 59 / 72.74 / 81 C | 14.01 / 69.78 / 99.20 W | 1732 / 1909.55 / 2062 MHz | 7001 / 7001 / 7001 MHz | 0 / 70.63 / 99% | P0 (111/111) | Execucao com aquecimento/transicao inicial; menos consistente que o Teste B. |
+| 2026-05-27 | RE4 B | Resident Evil 4 | Mesma carga real, notebook parado | 2 min | Nao observado diretamente | 75 / 83.52 / 86 C | 79.94 / 93.08 / 97.07 W | 1867 / 1929.84 / 1972 MHz | 7001 / 7001 / 7001 MHz | 59 / 97.87 / 100% | P0 (108/108) | Melhor referencia parada: alta utilizacao, power draw estavel e memoria fixa em 7001 MHz. |
+| 2026-05-27 | RE4 C | Resident Evil 4 | Mesma carga real; 30 s parado e depois movimento leve | 2 min | Queda visual nao registrada diretamente; queda forte na telemetria | 63 / 71.71 / 86 C | 19.20 / 45.69 / 95.26 W | 585 / 1755.29 / 1980 MHz | 810 / 3023.43 / 7001 MHz | 80 / 99.23 / 100% | P5 (73/114) | Queda iniciou por volta de 32.1 s, logo apos a janela de movimento. |
+
+### Comparacao parado vs movimento com RE4
+
+- Referencia parada principal: Teste RE4 B.
+- Movimento: Teste RE4 C, especialmente o trecho de 30-120 s.
+- Power draw medio: 93.08 W no RE4 B; 33.34 W no trecho 30-120 s do RE4 C.
+- Clock grafico medio: 1929.84 MHz no RE4 B; 1722.47 MHz no trecho 30-120 s do RE4 C.
+- Clock grafico minimo: 1867 MHz no RE4 B; 585 MHz no RE4 C.
+- Clock de memoria medio: 7001 MHz no RE4 B; 1666.38 MHz no trecho 30-120 s do RE4 C.
+- Clock de memoria minimo: 7001 MHz no RE4 B; 810 MHz no RE4 C.
+- P-state: P0 em 108/108 amostras no RE4 B; P5 em 73/85 amostras no trecho 30-120 s do RE4 C.
+- Uso medio de GPU: 97.87% no RE4 B; 99.34% no trecho 30-120 s do RE4 C.
+- Queda no movimento: sim, clara na telemetria.
+- Momento aproximado da queda: 32.1 s apos inicio do Teste C.
+
+### Recorte do Teste C com RE4
+
+| Segmento | Amostras | Temp. GPU min/media/max | Power draw min/media/max | Clock grafico min/media/max | Clock memoria min/media/max | Uso GPU min/media/max | P-state predominante |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 0-30 s parado | 29 | 83 / 83.48 / 86 C | 79.54 / 81.86 / 93.68 W | 1792 / 1851.48 / 1950 MHz | 7001 / 7001 / 7001 MHz | 98 / 98.90 / 100% | P0 (29/29) |
+| 30-120 s movimento | 85 | 63 / 67.69 / 83 C | 19.20 / 33.34 / 95.26 W | 585 / 1722.47 / 1980 MHz | 810 / 1666.38 / 7001 MHz | 80 / 99.34 / 100% | P5 (73/85) |
+
+Interpretacao: a utilizacao da GPU continuou alta, mas o estado de performance, memoria, power draw e clocks cairam depois do inicio do movimento. Isso sugere limitacao por politica/sensor/energia durante movimento, mas ainda nao identifica a causa exata. Nenhuma alteracao foi aplicada.
