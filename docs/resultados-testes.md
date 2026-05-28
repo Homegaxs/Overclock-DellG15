@@ -65,3 +65,20 @@ O teste anterior com Notepad em branco foi util para validar o monitoramento, ma
 | 30-120 s movimento | 85 | 63 / 67.69 / 83 C | 19.20 / 33.34 / 95.26 W | 585 / 1722.47 / 1980 MHz | 810 / 1666.38 / 7001 MHz | 80 / 99.34 / 100% | P5 (73/85) |
 
 Interpretacao: a utilizacao da GPU continuou alta, mas o estado de performance, memoria, power draw e clocks cairam depois do inicio do movimento. Isso sugere limitacao por politica/sensor/energia durante movimento, mas ainda nao identifica a causa exata. Nenhuma alteracao foi aplicada.
+
+## Teste com sensor integrado temporariamente desabilitado
+
+O usuario autorizou executar a Opcao C do plano de mitigacao como teste reversivel. O dispositivo identificado por nome exato foi `Intel(R) Integrated Sensor Solution`. Foi criado ponto de restauracao antes da alteracao. Nenhum driver foi removido, nenhum dispositivo foi desinstalado, BIOS/registro/servicos nao foram alterados e Intel Dynamic Tuning nao foi modificado.
+
+| Data | Teste | App/jogo | Condicao | Duracao | FPS/stutter observado | Temp. GPU min/media/max | Power draw min/media/max | Clock grafico min/media/max | Clock memoria min/media/max | Uso GPU min/media/max | P-state predominante | Observacoes |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-05-27 | Sensor off parado | Resident Evil 4 | Sensor integrado desabilitado, notebook parado | 2 min | Nao observado diretamente | 78 / 82.24 / 86 C | 92.29 / 94.71 / 94.99 W | 1897 / 1911.24 / 1972 MHz | 7001 / 7001 / 7001 MHz | 97 / 98.95 / 99% | P0 (113/113) | Carga forte e estavel. |
+| 2026-05-27 | Sensor off movimento | Resident Evil 4 | Sensor integrado desabilitado; 30 s parado e depois movimento leve | 2 min | Nao observado diretamente | 82 / 82.79 / 86 C | 79.51 / 81.28 / 95.23 W | 1762 / 1816.52 / 1950 MHz | 7001 / 7001 / 7001 MHz | 97 / 98.95 / 100% | P0 (113/113) | Nao houve queda para P5 nem queda de memoria na telemetria. |
+
+### Comparacao sensor ligado vs sensor desabilitado
+
+- Sensor ligado, RE4 B parado: P0 em 108/108, power medio 93.08 W, memoria 7001 MHz.
+- Sensor ligado, RE4 C movimento: P5 em 73/85 no trecho 30-120 s, power medio 33.34 W, memoria media 1666.38 MHz.
+- Sensor desabilitado, movimento 30-120 s: P0 em 84/84, power medio 79.82 W, memoria 7001 MHz.
+- Resultado: a queda forte de P-state/memoria/power draw desapareceu na telemetria com o sensor integrado temporariamente desabilitado.
+- Observacao importante: a tentativa de reabilitacao retornou `CM_PROB_FAILED_ADD` antes do reinicio, mas apos reiniciar o Windows o sensor voltou para `OK` com `CM_PROB_NONE`.

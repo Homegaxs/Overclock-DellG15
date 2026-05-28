@@ -44,11 +44,11 @@ Criterio de confirmacao:
 
 Risco: baixo. Este caminho apenas repete monitoramento.
 
-## Caminho C - Teste reversivel futuro
+## Caminho C - Teste reversivel do sensor integrado
 
-Objetivo: testar hipotese de sensor/movimento sem aplicar mudanca agora.
+Objetivo: testar hipotese de sensor/movimento.
 
-Nao executar ainda. Este caminho so deve ser feito se o usuario autorizar explicitamente.
+Status: executado com autorizacao explicita do usuario em 2026-05-27. Ver detalhes em `docs/teste-sensor-integrado.md`.
 
 Teste manual proposto:
 
@@ -76,6 +76,13 @@ Reversao:
 - Conferir se os sensores voltaram ao estado normal.
 
 Importante: este caminho nao altera BIOS, nao altera driver instalado, nao remove dispositivo e nao deve ser feito sem autorizacao explicita.
+
+Resultado do teste executado:
+
+- Com sensor ligado, o movimento no RE4 havia causado queda para P5, power draw medio de 33.34 W no trecho de movimento e memoria media de 1666.38 MHz.
+- Com `Intel(R) Integrated Sensor Solution` temporariamente desabilitado, o movimento no RE4 ficou em P0, memoria em 7001 MHz e power draw medio de 79.82 W no trecho de movimento.
+- A queda forte desapareceu na telemetria.
+- A reversao exigiu reinicio do Windows; apos reiniciar, o dispositivo voltou para `OK` com `CM_PROB_NONE`.
 
 ## Registro esperado
 
