@@ -97,3 +97,17 @@ Se qualquer caminho for testado no futuro, registrar apenas:
 - se houve reversao.
 
 Nao commitar CSV, LOG, prints ou dados sensiveis.
+
+## Estado atual do sensor integrado
+
+Em 2026-05-27, o usuario autorizou manter o `Intel(R) Integrated Sensor Solution` desabilitado por enquanto e repetir o teste com Resident Evil 4.
+
+Resultado:
+
+- O dispositivo foi identificado por nome exato antes da alteracao.
+- O dispositivo foi desabilitado sem desinstalar e sem remover driver.
+- Nao foi necessario reiniciar para deixar o sensor desabilitado.
+- Com o sensor desabilitado, o teste de movimento com RE4 permaneceu em P0, memoria em 7001 MHz e power draw medio de 90.94 W no trecho 30-120 s.
+- A queda para P5 observada com o sensor ligado nao apareceu nesse novo teste.
+
+Para reabilitar no futuro, seguir `docs/sensor-desabilitado.md`.

@@ -60,3 +60,4 @@ Nao publicar:
 - [Analise de Laptop Mode](docs/analise-laptop-mode.md)
 - [Plano de mitigacao](docs/plano-mitigacao.md)
 - [Teste reversivel do sensor integrado](docs/teste-sensor-integrado.md)
+- [Sensor integrado desabilitado](docs/sensor-desabilitado.md)

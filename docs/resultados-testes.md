@@ -82,3 +82,20 @@ O usuario autorizou executar a Opcao C do plano de mitigacao como teste reversiv
 - Sensor desabilitado, movimento 30-120 s: P0 em 84/84, power medio 79.82 W, memoria 7001 MHz.
 - Resultado: a queda forte de P-state/memoria/power draw desapareceu na telemetria com o sensor integrado temporariamente desabilitado.
 - Observacao importante: a tentativa de reabilitacao retornou `CM_PROB_FAILED_ADD` antes do reinicio, mas apos reiniciar o Windows o sensor voltou para `OK` com `CM_PROB_NONE`.
+
+## Teste com sensor integrado desabilitado
+
+O usuario autorizou deixar o `Intel(R) Integrated Sensor Solution` desabilitado por enquanto e repetir o teste com Resident Evil 4. Foi criado ponto de restauracao antes da alteracao. O sensor foi identificado por nome exato, desabilitado sem desinstalar dispositivo e sem remover driver. O Intel Dynamic Tuning e servicos Dell nao foram alterados.
+
+| Data | Teste | App/jogo | Condicao | Duracao | FPS/stutter observado | Temp. GPU min/media/max | Power draw min/media/max | Clock grafico min/media/max | Clock memoria min/media/max | Uso GPU min/media/max | P-state predominante | Observacoes |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-05-27 | Sensor disabled parado | Resident Evil 4 | Sensor integrado desabilitado, notebook parado | 2 min | Nao observado diretamente | 78 / 81.14 / 84 C | 88.82 / 94.16 / 95.53 W | 1897 / 1925.86 / 1980 MHz | 7001 / 7001 / 7001 MHz | 92 / 98.18 / 100% | P0 (114/114) | Carga real forte e estavel. |
+| 2026-05-27 | Sensor disabled movimento | Resident Evil 4 | Sensor integrado desabilitado; 30 s parado e depois movimento leve | 2 min | Nao observado diretamente | 82 / 84.45 / 86 C | 79.47 / 91.82 / 94.83 W | 1785 / 1894.61 / 1957 MHz | 7001 / 7001 / 7001 MHz | 86 / 98.60 / 100% | P0 (114/114) | Nao houve queda para P5 nem queda de memoria na telemetria. |
+
+### Comparacao final
+
+- Sensor ligado + movimento: P5 em 73/85 amostras no trecho 30-120 s, power medio 33.34 W, memoria media 1666.38 MHz.
+- Sensor temporariamente desligado + movimento: P0 em 84/84, power medio 79.82 W, memoria 7001 MHz.
+- Sensor agora desabilitado + movimento: P0 em 85/85 no trecho 30-120 s, power medio 90.94 W, memoria 7001 MHz.
+- Resultado: a queda ao movimentar desapareceu na telemetria.
+- Problemas colaterais observados por comando: nenhum.
